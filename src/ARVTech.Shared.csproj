@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <BaseOutputPath>bin\</BaseOutputPath>
     <BaseIntermediateOutputPath>bin</BaseIntermediateOutputPath>
+    <PackageOutputPath>bin\</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
