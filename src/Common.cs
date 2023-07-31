@@ -83,6 +83,61 @@
             return requestUri;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nameParts"></param>
+        /// <returns></returns>
+        public static string GetFirstName(string fullName)
+        {
+            if (fullName == null ||
+                string.IsNullOrEmpty(fullName))
+            {
+                throw new ArgumentNullException(
+                    nameof(
+                        fullName));
+            }
+
+            if (!fullName.Contains(' '))
+            {
+                return fullName;
+            }
+            else
+            {
+                var nameParts = fullName.Split(' ');
+
+                return nameParts[0];
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fullName"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static string GetLastName(string fullName)
+        {
+            if (fullName == null ||
+                string.IsNullOrEmpty(fullName))
+            {
+                throw new ArgumentNullException(
+                    nameof(
+                        fullName));
+            }
+
+            if (!fullName.Contains(' '))
+            {
+                return fullName;
+            }
+            else
+            {
+                var nameParts = fullName.Split(' ');
+
+                return nameParts[nameParts.Length - 1];
+            }
+        }
+
         public static string GetTokenBase64Encode(string username, string password)
         {
             string textEncode = $"{username}:{password}";
