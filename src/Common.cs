@@ -138,6 +138,12 @@
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public static string GetTokenBase64Encode(string username, string password)
         {
             string textEncode = $"{username}:{password}";
