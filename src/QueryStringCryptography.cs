@@ -16,13 +16,13 @@
         /// Encrypt the given byte data using the default <c>DESCryptoServiceProvider</c>.
         /// </summary>
         /// <param name="stringToEncrypt">Value to be encrypted.</param>
-        /// <param name="sEncryptionKey">Encryption`s key.</param>
+        /// <param name="keyEncrypt">Encryption`s key.</param>
         /// <returns>Encrypted data.</returns>
-        public static string Encrypt(string stringToEncrypt, string sEncryptionKey)
+        public static string Encrypt(string stringToEncrypt, string keyEncrypt)
         {
             try
             {
-                byte[] key = Encoding.UTF8.GetBytes(sEncryptionKey.Substring(0, 8));
+                byte[] key = Encoding.UTF8.GetBytes(keyEncrypt.Substring(0, 8));
                 DESCryptoServiceProvider des = new DESCryptoServiceProvider();
                 byte[] inputByteArray = Encoding.UTF8.GetBytes(stringToEncrypt);
                 MemoryStream ms = new MemoryStream();
@@ -42,15 +42,15 @@
         /// Decrypt the given byte data using the default <c>DESCryptoServiceProvider</c>.
         /// </summary>
         /// <param name="stringToDecrypt">Value to be decrypted.</param>
-        /// <param name="sEncryptionKey">Encryption`s key.</param>
+        /// <param name="keyEncrypt">Encryption`s key.</param>
         /// <returns>Decrypted data.</returns>
-        public static string Decrypt(string stringToDecrypt, string sEncryptionKey)
+        public static string Decrypt(string stringToDecrypt, string keyEncrypt)
         {
             byte[] inputByteArray = new byte[stringToDecrypt.Length];
 
             try
             {
-                byte[] key = Encoding.UTF8.GetBytes(sEncryptionKey.Substring(0, 8));
+                byte[] key = Encoding.UTF8.GetBytes(keyEncrypt.Substring(0, 8));
                 DESCryptoServiceProvider des = new DESCryptoServiceProvider();
                 inputByteArray = Convert.FromBase64String(stringToDecrypt.Replace(" ", "+"));
                 MemoryStream ms = new MemoryStream();
