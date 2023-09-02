@@ -9,7 +9,7 @@
     {
         public const string UriBaseApiString = @"https://localhost:7104/api";
 
-        public const string MediaTypes = @"application/json";
+        //public const string MediaTypes = @"application/json";
 
         public static string ApplyDefaultFilterQueryString(string uri, Dictionary<string, string> filters)
         {
