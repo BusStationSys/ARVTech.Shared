@@ -9,41 +9,6 @@
     /// </summary>
     public class EmailService : IEmailService
     {
-        ///// <summary>
-        ///// Holds the instance of the <see cref="SmtpDeliveryMethod"/> enum.
-        ///// </summary>
-        //private readonly SmtpDeliveryMethod _smtpDeliveryMethod;
-
-        ///// <summary>
-        ///// Holds the name or IP address of the Host used.
-        ///// </summary>
-        //private readonly string _host;
-
-        ///// <summary>
-        ///// Holds the number of the Port used.
-        ///// </summary>
-        //private readonly int _port;
-
-        ///// <summary>
-        ///// Holds whether the uses Secure Socket Layer to encrypt connection.
-        ///// </summary>
-        //private readonly bool _enableSsl;
-
-        ///// <summary>
-        ///// Holds the username associated with the credentials and sender of the email.
-        ///// </summary>
-        //private readonly string _email = string.Empty;
-
-        ///// <summary>
-        ///// Holds the password associated with the credentials.
-        ///// </summary>
-        //private readonly string _password = string.Empty;
-
-        ///// <summary>
-        ///// Holds the display name that will be displayed on the email`s sender.
-        ///// </summary>
-        //private readonly string _displayName;
-
         /// <summary>
         /// Holds the name or IP address or Server of the Host used.
         /// </summary>
@@ -54,12 +19,24 @@
         /// </summary>
         private readonly int _port;
 
+        /// <summary>
+        /// Holds the info that will be displayed on the name`s sender.
+        /// </summary>
         private readonly string _senderName;
 
+        /// <summary>
+        /// Holds the info that will be displayed on the email`s sender.
+        /// </summary>
         private readonly string _senderEmail;
 
+        /// <summary>
+        /// Holds the username associated with the credentials.
+        /// </summary>
         private readonly string _username;
 
+        /// <summary>
+        /// Holds the password associated with the credentials.
+        /// </summary>
         private readonly string _password;
 
         /// <summary>
