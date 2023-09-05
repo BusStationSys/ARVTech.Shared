@@ -3,13 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Text;
 
     public static class Common
     {
         public const string UriBaseApiString = @"https://localhost:7104/api";
-
-        //public const string MediaTypes = @"application/json";
 
         public static string ApplyDefaultFilterQueryString(string uri, Dictionary<string, string> filters)
         {
@@ -108,6 +107,45 @@
 
                 return nameParts[0];
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static IPAddress? GetIP()
+        {
+            /*
+             * https://ipinfo.io/ip/
+             * https://api.ipify.org/
+             * https://icanhazip.com/
+             * https://checkip.amazonaws.com/
+             * https://wtfismyip.com/text
+            */
+
+            var services = new List<string>()
+               {
+                "https://ipv4.icanhazip.com",
+                "https://api.ipify.org",
+                "https://ipinfo.io/ip",
+                "https://checkip.amazonaws.com",
+                "https://wtfismyip.com/text",
+                "http://icanhazip.com"
+               };
+
+            using (var httpClient = new HttpClient())
+            {
+                foreach (var service in services)
+                {
+                    try
+                    {
+                        return IPAddress.Parse(httpClient.GetStringAsync(service).Result);
+                    }
+                    catch { }
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
