@@ -2,9 +2,34 @@
 {
     using System;
     using System.Text;
+    using System.Text.RegularExpressions;
 
-    public static class StringExtension
+    public static partial class StringExtension
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jsonString"></param>
+        /// <returns></returns>
+        public static bool IsValidJson(this string jsonString)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(jsonString))
+                    return false;
+
+                const string pattern = @"^[\],:{}\s]*$";
+                const string jsonPattern = @"(?:[""'](?:\\.|[^""\\\r\n])*[""']|(?<o>\{)|(?<-o>\})|(?<a>\[)|(?<-a>\]))*?(?(o)(?!))(?(a)(?!))$";
+
+                return Regex.IsMatch(jsonString, pattern) &&
+                    Regex.IsMatch(jsonString, jsonPattern);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>

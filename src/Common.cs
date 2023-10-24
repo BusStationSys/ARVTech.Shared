@@ -8,7 +8,9 @@
 
     public static class Common
     {
-        public const string UriBaseApiString = @"https://localhost:7104/api";
+        //  public const string UriBaseApiString = @"https://localhost:7104/api";
+
+        //  public const string UriBaseApiString = @"http://api.arvtech.com.br/api";
 
         public static string ApplyDefaultFilterQueryString(string uri, Dictionary<string, string> filters)
         {
