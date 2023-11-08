@@ -2,7 +2,7 @@
 {
     using System;
     using System.Text;
-    using System.Text.RegularExpressions;
+    using Newtonsoft.Json.Linq;
 
     public static partial class StringExtension
     {
@@ -13,21 +13,46 @@
         /// <returns></returns>
         public static bool IsValidJson(this string jsonString)
         {
-            try
-            {
-                if (string.IsNullOrEmpty(jsonString))
-                    return false;
-
-                const string pattern = @"^[\],:{}\s]*$";
-                const string jsonPattern = @"(?:[""'](?:\\.|[^""\\\r\n])*[""']|(?<o>\{)|(?<-o>\})|(?<a>\[)|(?<-a>\]))*?(?(o)(?!))(?(a)(?!))$";
-
-                return Regex.IsMatch(jsonString, pattern) &&
-                    Regex.IsMatch(jsonString, jsonPattern);
-            }
-            catch
-            {
+            if (string.IsNullOrEmpty(jsonString))
                 return false;
+
+            //  const string pattern = @"^[\],:{}\s]*$";
+            //  const string jsonPattern = @"(?:[""'](?:\\.|[^""\\\r\n])*[""']|(?<o>\{)|(?<-o>\})|(?<a>\[)|(?<-a>\]))*?(?(o)(?!))(?(a)(?!))$";
+
+            //        return Regex.IsMatch(jsonString, pattern) &&
+            //            Regex.IsMatch(jsonString, jsonPattern);
+
+            jsonString = jsonString.Trim();
+
+            if ((jsonString.StartsWith('{') && jsonString.EndsWith('}')) ||
+                (jsonString.StartsWith('[') && jsonString.EndsWith(']')))   //  For object or for array.
+            {
+                try
+                {
+                    JToken.Parse(
+                        jsonString);
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+
+                //catch (JsonReaderException ex1)
+                //{
+                //    //Exception in parsing json
+                //    Console.WriteLine(jex.Message);
+                //    return false;
+                //}
+                //catch (Exception ex) //some other exception
+                //{
+                //    Console.WriteLine(ex.ToString());
+                //    return false;
+                //}
             }
+
+            return false;
         }
 
         /// <summary>
