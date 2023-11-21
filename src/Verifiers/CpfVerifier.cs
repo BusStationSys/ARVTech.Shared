@@ -34,9 +34,7 @@
                 if (lngCPF > 0 && valueInput.Length == 11)
                 {
                     for (i = 0; i <= num.Length - 1; i++)
-                    {
                         num[i] = int.Parse(valueInput.Substring(i, 1));
-                    }
 
                     soma = (num[0] * 10) +
                         (num[1] * 9) +
@@ -47,15 +45,13 @@
                         (num[6] * 4) +
                         (num[7] * 3) +
                         (num[8] * 2);
-                    soma = soma - (11 * ((int)(soma / 11)));
+                    
+                    soma -= (11 * (soma / 11));
+
                     if (soma == 0 || soma == 1)
-                    {
                         resultado1 = 0;
-                    }
                     else
-                    {
                         resultado1 = 11 - soma;
-                    }
 
                     if (resultado1 == num[9])
                     {
@@ -69,19 +65,17 @@
                             (num[7] * 4) +
                             (num[8] * 3) +
                             (num[9] * 2);
-                        soma = soma - (11 * ((int)(soma / 11)));
-                        if (soma == 0 || soma == 1)
-                        {
-                            resultado2 = 0;
-                        }
-                        else
-                        {
-                            resultado2 = 11 - soma;
-                        }
 
-                        if (resultado2 == num[10])
-                        {
-                            if (valueInput == "11111111111" ||
+                        soma -= (11 * (soma / 11));
+
+                        if (soma == 0 ||
+                            soma == 1)
+                            resultado2 = 0;
+                        else
+                            resultado2 = 11 - soma;
+
+                        if ((resultado2 == num[10]) &&
+                                (valueInput == "11111111111" ||
                                 valueInput == "22222222222" ||
                                 valueInput == "33333333333" ||
                                 valueInput == "44444444444" ||
@@ -90,11 +84,10 @@
                                 valueInput == "77777777777" ||
                                 valueInput == "88888888888" ||
                                 valueInput == "99999999999" ||
-                                valueInput == "00000000000")
-                                return false;
-
-                            return true;
-                        }
+                                valueInput == "00000000000"))
+                            return false;
+                        
+                        return true;
                     }
                 }
 
