@@ -31,7 +31,10 @@
                         key);
 
                     aes.IV = iv;
-                    ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+
+                    ICryptoTransform decryptor = aes.CreateDecryptor(
+                        aes.Key, 
+                        aes.IV);
 
                     using (var memoryStream = new MemoryStream(
                         buffer))
