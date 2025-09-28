@@ -22,15 +22,27 @@
         {
             try
             {
-                byte[] key = Encoding.UTF8.GetBytes(keyEncrypt.Substring(0, 8));
-                DESCryptoServiceProvider des = new DESCryptoServiceProvider();
-                byte[] inputByteArray = Encoding.UTF8.GetBytes(stringToEncrypt);
-                MemoryStream ms = new MemoryStream();
-                CryptoStream cs = new CryptoStream(ms, des.CreateEncryptor(key, _iv), CryptoStreamMode.Write);
-                cs.Write(inputByteArray, 0, inputByteArray.Length);
-                cs.FlushFinalBlock();
+                byte[] key = Encoding.UTF8.GetBytes(keyEncrypt[..8]);
 
-                return Convert.ToBase64String(ms.ToArray());
+                byte[] inputByteArray = Encoding.UTF8.GetBytes(stringToEncrypt);
+
+                using (var des = new DESCryptoServiceProvider())
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        using (var cs = new CryptoStream(ms, des.CreateEncryptor(key, _iv), CryptoStreamMode.Write))
+                        {
+                            cs.Write(
+                                inputByteArray,
+                                0, 
+                                inputByteArray.Length);
+
+                            cs.FlushFinalBlock();
+                        }
+
+                        return Convert.ToBase64String(ms.ToArray());
+                    }
+                }
             }
             catch
             {
@@ -46,21 +58,28 @@
         /// <returns>Decrypted data.</returns>
         public static string Decrypt(string stringToDecrypt, string keyEncrypt)
         {
-            byte[] inputByteArray = new byte[stringToDecrypt.Length];
-
             try
             {
-                byte[] key = Encoding.UTF8.GetBytes(keyEncrypt.Substring(0, 8));
-                DESCryptoServiceProvider des = new DESCryptoServiceProvider();
-                inputByteArray = Convert.FromBase64String(stringToDecrypt.Replace(" ", "+"));
-                MemoryStream ms = new MemoryStream();
-                CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(key, _iv), CryptoStreamMode.Write);
-                cs.Write(inputByteArray, 0, inputByteArray.Length);
-                cs.FlushFinalBlock();
+                byte[] inputByteArray = new byte[stringToDecrypt.Length];
 
-                Encoding encoding = Encoding.UTF8;
+                byte[] key = Encoding.UTF8.GetBytes(keyEncrypt[..8]);
 
-                return encoding.GetString(ms.ToArray());
+                using (var des = new DESCryptoServiceProvider())
+                {
+                    inputByteArray = Convert.FromBase64String(stringToDecrypt.Replace(" ", "+"));
+
+                    using (var ms = new MemoryStream())
+                    {
+                        using (var cs = new CryptoStream(ms, des.CreateDecryptor(key, _iv), CryptoStreamMode.Write))
+                        {
+                            cs.Write(inputByteArray, 0, inputByteArray.Length);
+                            cs.FlushFinalBlock();
+                        }
+
+                        return Encoding.UTF8.GetString(
+                            ms.ToArray());
+                    }
+                }
             }
             catch
             {
