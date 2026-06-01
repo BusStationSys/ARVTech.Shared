@@ -1,16 +1,19 @@
-﻿using ARVTech.Shared.Security.Interfaces;
-using Konscious.Security.Cryptography;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ARVTech.Shared.Security.Implementations
+﻿namespace ARVTech.Shared.Security.Implementations
 {
+    using System;
+    using System.Security.Cryptography;
+    using System.Text;
+    using ARVTech.Shared.Security.Interfaces;
+    using Konscious.Security.Cryptography;
+
     public class Argon2IdPasswordHasher : IPasswordHasher
     {
+        private readonly int _degreeOfParallelism = 2;
+
+        private readonly int _iterations = 3;
+
+        private readonly int _memorySize = 65536;   //  64 MB
+
         private readonly IPepperProvider _pepperProvider;
 
         public Argon2IdPasswordHasher(IPepperProvider pepperProvider)
@@ -33,14 +36,14 @@ namespace ARVTech.Shared.Security.Implementations
                 combined)
             {
                 Salt = salt,
-                DegreeOfParallelism = 2,
-                MemorySize = 65536,
-                Iterations = 3
+                DegreeOfParallelism = this._degreeOfParallelism,
+                MemorySize = this._memorySize,
+                Iterations = this._iterations
             };
 
             var hash = argon2.GetBytes(32);
 
-            return $"$argon2id$v=19$m=65536,t=3,p=2${Convert.ToBase64String(salt)}${Convert.ToBase64String(hash)}";
+            return $"$argon2id$v=19$m={this._memorySize},t={this._iterations},p={this._degreeOfParallelism}${Convert.ToBase64String(salt)}${Convert.ToBase64String(hash)}";
         }
 
         public bool Verify(string password, string storedHash)

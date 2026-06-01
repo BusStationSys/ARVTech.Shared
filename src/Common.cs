@@ -87,28 +87,32 @@
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="nameParts"></param>
+        /// <param name="fullName"></param>
         /// <returns></returns>
         public static string GetFirstName(string fullName)
         {
-            if (fullName == null ||
-                string.IsNullOrEmpty(fullName))
-            {
-                throw new ArgumentNullException(
-                    nameof(
-                        fullName));
-            }
+            //if (fullName == null ||
+            //    string.IsNullOrEmpty(fullName))
+            //{
+            //    throw new ArgumentNullException(
+            //        nameof(
+            //            fullName));
+            //}
 
-            if (!fullName.Contains(' '))
-            {
-                return fullName;
-            }
-            else
-            {
-                var nameParts = fullName.Split(' ');
+            //if (!fullName.Contains(' '))
+            //{
+            //    return fullName;
+            //}
+            //else
+            //{
+            //    var nameParts = fullName.Split(' ');
 
-                return nameParts[0];
-            }
+            //    return nameParts[0];
+            //}
+
+            return string.IsNullOrWhiteSpace(fullName) ?
+                fullName :
+                fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries)[0];
         }
 
         /// <summary>
@@ -155,27 +159,30 @@
         /// </summary>
         /// <param name="fullName"></param>
         /// <returns></returns>
-        /// <exception cref="ArgumentNullException"></exception>
         public static string GetLastName(string fullName)
         {
-            if (fullName == null ||
-                string.IsNullOrEmpty(fullName))
-            {
-                throw new ArgumentNullException(
-                    nameof(
-                        fullName));
-            }
+            //if (fullName == null ||
+            //    string.IsNullOrEmpty(fullName))
+            //{
+            //    throw new ArgumentNullException(
+            //        nameof(
+            //            fullName));
+            //}
 
-            if (!fullName.Contains(' '))
-            {
-                return fullName;
-            }
-            else
-            {
-                var nameParts = fullName.Split(' ');
+            //if (!fullName.Contains(' '))
+            //{
+            //    return fullName;
+            //}
+            //else
+            //{
+            //    var nameParts = fullName.Split(' ');
 
-                return nameParts[nameParts.Length - 1];
-            }
+            //    return nameParts[nameParts.Length - 1];
+            //}
+
+            return string.IsNullOrWhiteSpace(fullName) ?
+                fullName :
+                fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries)[^1];
         }
 
         /// <summary>
