@@ -1,5 +1,7 @@
 ﻿namespace ARVTech.Shared.Verifiers
 {
+    using System;
+
     /// <summary>
     /// Class responsible for CNPJ string type verification methods.
     /// </summary>
@@ -14,13 +16,14 @@
         {
             try
             {
-                int[] multiplicador1 = new int[12] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
-                int[] multiplicador2 = new int[13] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
+                int[] multiplicador1 = { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
+                int[] multiplicador2 = { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
 
-                valueInput = valueInput.Trim();
-                valueInput = valueInput.Replace(".", string.Empty);
-                valueInput = valueInput.Replace("-", string.Empty);
-                valueInput = valueInput.Replace("/", string.Empty);
+                valueInput = valueInput.Trim().ToUpper();
+
+                valueInput = valueInput.Replace(".", string.Empty)
+                                       .Replace("-", string.Empty)
+                                       .Replace("/", string.Empty);
 
                 if (valueInput.Length != 14)
                     return false;
@@ -29,29 +32,20 @@
 
                 int soma = 0;
                 for (int i = 0; i < 12; i++)
-                    soma += int.Parse(tempCnpj[i].ToString()) * multiplicador1[i];
+                    soma += GetNumericValue(tempCnpj[i]) * multiplicador1[i];
 
                 int resto = soma % 11;
-
-                if (resto < 2)
-                    resto = 0;
-                else
-                    resto = 11 - resto;
+                resto = resto < 2 ? 0 : 11 - resto;
 
                 string digito = resto.ToString();
-
                 tempCnpj += digito;
 
                 soma = 0;
                 for (int i = 0; i < 13; i++)
-                    soma += int.Parse(tempCnpj[i].ToString()) * multiplicador2[i];
+                    soma += GetNumericValue(tempCnpj[i]) * multiplicador2[i];
 
                 resto = soma % 11;
-
-                if (resto < 2)
-                    resto = 0;
-                else
-                    resto = 11 - resto;
+                resto = resto < 2 ? 0 : 11 - resto;
 
                 digito += resto.ToString();
 
@@ -61,6 +55,23 @@
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Gets the numeric value of a character.
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        private static int GetNumericValue(char c)
+        {
+            if (char.IsDigit(c))
+                return c - '0';
+
+            if (char.IsLetter(c))
+                return c - 'A' + 10;
+
+            throw new ArgumentException("Caractere inválido no CNPJ.");
         }
     }
 }
